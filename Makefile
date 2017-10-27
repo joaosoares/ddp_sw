@@ -1,10 +1,10 @@
 TARGET = prog
 LIBS = -lm
-CC = g++
+CC = gcc
 CPPFLAGS = -g -Wall
 LD_LIBRARIES = -L$(CPPUTEST_HOME)/lib -lCppUTest -lCppUTestExt
 
-.PHONY: default all clean
+.PHONY: default all clean test
 
 default: $(TARGET)
 all: default
@@ -30,5 +30,6 @@ clean:
 
 TEST_FILES = $(wildcard test/*.cpp)
 test: $(OBJECTS) 
-	$(CC) $(CPPFLAGS) $(LD_LIBRARIES) mp_arith.c $(TEST_FILES) -o test_runner
+	g++ $(CPPFLAGS) $(LD_LIBRARIES) mp_arith.c montgomery.c $(TEST_FILES) -o test_runner
+	./test_runner -c
 

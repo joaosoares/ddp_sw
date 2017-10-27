@@ -108,6 +108,7 @@ def main():
 
     print ('\n\n\n')
     print_result(c, 'mont_mul')
+    print2array(c, 'expected', 32)
     print ('\n\n\n')
 
     a = 0x07d92c14c52a6c88c90096c43c80aecf917d544c69f174f6dfede44cb60ee4dcf24a2910aa396499489963822514307723d635bb419a784ea328f0365dd5313dedaf8b6b024897326550e48edb438313c7ed29ebfefeb38ed51c806400c35266ce2058bbdad8575e748f18feac500fe05fe4fd66cd340e16f2e5f53895401e33
@@ -123,6 +124,7 @@ def main():
 
     print ('\n\n\n')
     print_result(c, 'mont_mul')
+    print2array(c, 'expected', 32)
     print ('\n\n\n')
 
     a = 0x2c261c9b607fc341191a0cc0c0a7108c046d10524135e9f9bd13b6fd7420341993df7baef489dab2f6a0e49f82f4820eaba36ace21c0b44a651c9e4657dc78371c1a680751a66eb0fabbcfe3520fa2fe3178b33b4210ad08f0af88c6465ab66a04b6f5a721c3a9a574150080873a8d9d9c028fdefef81247b3270d274b0afbba 
@@ -138,6 +140,7 @@ def main():
 
     print ('\n\n\n')
     print_result(c, 'mont_mul')
+    print2array(c, 'expected', 32)
     print ('\n\n\n')
 
 
