@@ -83,7 +83,7 @@ int main()
     xil_printf("result = ");
     customprint(res, 32);
     
-    xil_printf("Cycles: %d\r\n\r\n", stop_time - start_time);
+    xil_printf("Bananas: %d\r\n\r\n", stop_time - start_time);
     cleanup_platform();
     return 0;
 }
