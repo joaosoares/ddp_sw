@@ -4,7 +4,7 @@ CC = gcc
 CPPFLAGS = -g -Wall
 LD_LIBRARIES = -L$(CPPUTEST_HOME)/lib -lCppUTest -lCppUTestExt
 
-.PHONY: default all clean test
+.PHONY: default all clean test profile
 
 default: $(TARGET)
 all: default
@@ -33,3 +33,5 @@ test: $(OBJECTS)
 	g++ $(CPPFLAGS) $(LD_LIBRARIES) mp_arith.c montgomery.c $(TEST_FILES) -o test_runner
 	./test_runner -c
 
+profile:
+	gcc $(CPPFLAGS) $(LD_LIBRARIES) mp_arith.c montgomery.c test/profile.c -o profile -pg
