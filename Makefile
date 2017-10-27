@@ -34,4 +34,4 @@ test: $(OBJECTS)
 	./test_runner -c
 
 profile:
-	gcc $(CPPFLAGS) $(LD_LIBRARIES) mp_arith.c montgomery.c test/profile.c -o profile -pg
+	gcc $(CPPFLAGS) mp_arith.c montgomery.c test/profile.c -o profile -pg
