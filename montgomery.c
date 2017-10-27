@@ -19,7 +19,7 @@ void mont(uint32_t *a, uint32_t *b, uint32_t *n, uint32_t *n0, uint32_t *res,
     uint32_t S = (uint32_t)sum;
     uint32_t C = (uint32_t)(sum >> 32);
     add_carry(t, 1, C);
-    uint32_t m = (uint64_t)S * (uint64_t)n[0];
+    uint32_t m = (uint64_t)S * (uint64_t)n0[0];
     sum = (uint64_t)S + (uint64_t)m * (uint64_t)n[0];
     S = (uint32_t)sum;
     C = (uint32_t)(sum >> 32);
@@ -43,7 +43,7 @@ void mont(uint32_t *a, uint32_t *b, uint32_t *n, uint32_t *n0, uint32_t *res,
     t[size] = t[size + 1] + C;
     t[size + 1] = 0;
   }
-  sub_cond(t, n, size + 1);
+  sub_cond(t, n, size);
   for (i = 0; i < size; i++) {
     res[i] = t[i];
   }
@@ -54,7 +54,7 @@ void mont(uint32_t *a, uint32_t *b, uint32_t *n, uint32_t *n0, uint32_t *res,
  */
 void add_carry(uint32_t *t, uint32_t i, uint32_t c) {
   while (c != 0) {
-    uint64_t sum = t[i] + c;
+    uint64_t sum = (uint64_t) t[i] + (uint64_t) c;
     uint32_t S = (uint32_t)sum;
     c = (uint32_t)(sum >> 32);
     t[i] = S;
