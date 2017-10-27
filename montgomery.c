@@ -4,7 +4,11 @@
  */
 
 #include "montgomery.h"
+#include <stdint.h>
 #include <stdio.h>
+
+void add_carry(uint32_t *t, uint32_t i, uint32_t c);
+void sub_cond(uint32_t *u, uint32_t *n, uint32_t size);
 
 void mont(uint32_t *a, uint32_t *b, uint32_t *n, uint32_t *n0, uint32_t *res,
           uint32_t size) {
@@ -14,7 +18,7 @@ void mont(uint32_t *a, uint32_t *b, uint32_t *n, uint32_t *n0, uint32_t *res,
     t[i] = 0;
   }
 
-  for (int i = 0; i < size; i++) {
+  for (i = 0; i < size; i++) {
     uint64_t sum = (uint64_t)t[0] + (uint64_t)a[0] * (uint64_t)b[i];
     uint32_t S = (uint32_t)sum;
     uint32_t C = (uint32_t)(sum >> 32);
