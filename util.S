@@ -6,15 +6,20 @@
 
 multiply_and_sum:
 	@ Input arguments: r0 -> A, r1 -> B, r2 -> D, r3 -> *C
-	@ Multiply
-	umull r0, r1, r0, r1
+	@ Push registers to stack
+	push {r4-r9}
+	@ Multiply, save S in r4 and C in r5 
+	umull r4, r5, r0, r1
 	@ Add D to S with carry
-	add r0, r0, r2
+	add r4, r4, r2
 	@ Add carry bit to C
-	adc r1, r1, #0
+	addc r5, r5, #0
 	@ Save C to passed pointer
-	str r1, [r3]
-	@ Branch back
+	str r5, [r3]
+	@ Define return value
+	mov r0, r4
+	@ Restore registers and branch back
+	pop {r4-r9}
 	bx lr
 .endfunc
 
