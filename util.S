@@ -6,6 +6,8 @@
 .type add_carry, %function
 
 add_carry:
+
+
 	mov r6,#4	// store 4 for later use
 	mul r1, r1, r6	//i*4
 	add r0,r0,r1 //move the address of t until get the position
@@ -21,8 +23,25 @@ add_carry:
 		b  add_loop_mont
 	end_loop_mont:
 
-end_add_mont:
-	bx lr
+.endfunc
+
+
+.text
+
+.global multiply_and_sum
+.func multiply_and_sum, multiply_and_sum
+.type multiply_and_sum, %function
+
+multiply_and_sum:
+	@ Input arguments: r0 -> A, r1 -> B, r2 -> D, r3 -> *C
+	@ Multiply
+	umull r0, r1, r0, r1
+	@ Add D to S with carry
+	add r0, r0, r2
+	@ Add carry bit to C
+	adc r1, r1, #0
+	@ Save C to passed pointer
+	str r1, [r3]
 .endfunc
 
 
