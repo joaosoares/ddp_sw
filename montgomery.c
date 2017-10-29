@@ -23,17 +23,18 @@ void mont(uint32_t *a, uint32_t *b, uint32_t *n, uint32_t *n0, uint32_t *res,
   }
 
   for (i = 0; i < size; i++) {
-    S = multiply_and_sum(a[0], b[i], t[0], &C);
+    S = multiply_and_sum(a[0], b[i], t[0], 0);
+    C = get_carry();
     add_carry(t, 1, C);
-    uint32_t m = (uint64_t)S * (uint64_t)n0[0];
-    S = multiply_and_sum(m, n[0], S, &C);
+    uint32_t m = multiply_and_sum(S, n0, 0, 0);
+    S = multiply_and_sum(m, n[0], S, 0);
+    C = get_carry();
     int j;
     for (j = 1; j < size; j++) {
-      sum = (uint64_t)t[j] + (uint64_t)a[j] * (uint64_t)b[i] + (uint64_t)C;
-      S = (uint32_t)sum;
-      C = (uint32_t)(sum >> 32);
+      S = multiply_and_sum(a[j], b[i], t[j], C);
+      C = get_carry();
       add_carry(t, j + 1, C);
-      S = multiply_and_sum(m, n[j], S, &C);
+      S = multiply_and_sum(m, n[j], S, 0);
       t[j - 1] = S;
     }
     sum = t[size] + C;
