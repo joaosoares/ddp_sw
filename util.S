@@ -10,13 +10,13 @@ multiply_and_sum:
 	push {r4-r9}
 	@ Multiply, save S in r4 and C in r5 
 	umull r4, r5, r0, r1
-	@ Add D1 to S with carry
-	add r4, r4, r2
-	@ Add carry bit to C
+	@ D1+D2
+	adds r6, r2, r3
+	@ Add possible carry to C
 	adc r5, r5, #0
-	@ Add D2 to S with carry
-	add r4, r4, r3
-	@ Add carry bit to C
+	@ Add D1+D2 to S
+	adds r4, r4, r6
+	@ Add possible carry to C
 	adc r5, r5, #0
 	@ Define return value
 	mov r0, r4
@@ -38,6 +38,47 @@ get_carry:
 	bx lr
 .endfunc
 
+
+.text
+
+.global add_carry
+.func add_carry, add_carry
+.type add_carry, %function
+
+@ *t -> r0
+@ i  -> r1
+@ c  -> r2
+
+add_carry:
+	push {r4}
+	mov r4, #4
+	mul r1, r1, r4
+	add r0, r0, r1
+	cmp r2, #0
+	beq add_carry_end
+add_carry_loop:
+	ldr r3, [r0]
+	adds r3, r3, r2
+	str r3, [r0], #4
+	mov r2, #0
+	adc r2, r2, #0
+	add r1, r1, #4
+	cmp r2, #0
+	bne add_carry_loop
+add_carry_end:
+	pop {r4}
+	bx lr
+
+.endfunc
+
+@void add_carry(uint32_t *t, uint32_t i, uint32_t c) {
+@  while (c != 0) {
+@    uint64_t sum = (uint64_t) t[i] + (uint64_t) c;
+@    uint32_t S = (uint32_t)sum;
+@    c = (uint32_t)(sum >> 32);
+@    t[i] = S;
+@    i++;
+@  }
 
 
 @USEFUL FUNCTIONS

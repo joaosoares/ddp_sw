@@ -72,31 +72,35 @@ int main()
 	uint32_t b[32] = {0xfeb1b9f4, 0xe91d3bec, 0xfb09354d, 0x07f21d6d, 0x9ece9e1b, 0x18def18b, 0x4119e1e9, 0x55c85f24, 0x60ef0e23, 0x10e8ab54, 0x1e95cdcc, 0x4373912f, 0x6f42204d, 0x7126650d, 0xb61c1c8d, 0x98af9011, 0xa42c03b4, 0xd29e0870, 0x7923cb60, 0xdf87cfe5, 0xde4fffa0, 0x3ce537ca, 0x201040c6, 0x6e54b058, 0x814c53dc, 0xf16243f0, 0x57decf64, 0x8d0d4f37, 0x9b6d93e5, 0x45396d71,0x615213c4, 0x65f89f9f};
 	uint32_t N[32] = {0x4aeeb107, 0x5d78aa98, 0x6c55dd05, 0x6f5326c9, 0xf93f738c, 0xc10fa093, 0x20478120, 0x099d6d70, 0x833d9b82, 0x1248f3ed, 0xa43ed737, 0xc1c1da45, 0x9f23e5c7, 0xb17c3598, 0xe8938df6, 0x7ae59036, 0x9f84d87b, 0xc8710dc6, 0x249ee0f8, 0x46eeae2f, 0x66a3bb9b, 0xfeef4c6b, 0xc7b55eae, 0x7951dd0c, 0x0b4391e8, 0x141ad586, 0x1a568588, 0x908293dd, 0x472c0bea, 0x8d00abfe,0xed17377f, 0x83a01efe};
 	uint32_t n_prime[32] =  {0xe7d41349, 0x0c828dcd, 0x2dc06d90, 0x318f87bf, 0x1992ba09, 0x4b1bef10, 0x011ba664, 0xe3a7d9cf, 0x44449fbd, 0x89714d34, 0x6cd49cc4, 0x49c5b99d, 0xf90435b1, 0x38f037b7, 0xba9720db, 0x9641b106, 0xbca01d2a, 0xfdb82893, 0xbd7ce9c7, 0x372823e1, 0x4901cdde, 0xaa28d457, 0xe9f78c94, 0xb6e1e5b3, 0x5a79f7a6, 0xf5212a83, 0x2b1aab45, 0xa3924b69, 0x3c63a8af, 0x12fa121d, 0x7500bea0, 0xe58878e7};
+	uint32_t expected[32] = {0xeb7e3ef3, 0x40b90c4f, 0xd9c234b1, 0x2461cd34, 0x183481c7, 0x0bc4e5bd, 0x4803996e, 0x755d1777, 0x698f88c7, 0x2e78b03b, 0xa55cfb32, 0x74d1c12a, 0xc6bc8934, 0x581d4714, 0x7d504a58, 0xb29753f1, 0x99ae0c37, 0x65c4cc3a, 0x4153aacb, 0xe0a5c4bf, 0xce0a9c7c, 0x4babfb22, 0x75aa490d, 0x43b6ec25, 0xdcb17a10, 0x47deec3c, 0xd0e2735f, 0x16726b8e, 0x0f486246, 0x0f74d471, 0xe62a3577, 0x065a0397};
 	uint32_t res[32];
 	//
   
     init_performance_counters(1);
     uint32_t start_time = get_cycle_counter();
     // Montgomery
-	  mont(a, b, N, n_prime, res, 32);
+	mont(a, b, N, n_prime, res, 32);
     uint32_t stop_time = get_cycle_counter();
 
     xil_printf("result = ");
     customprint(res, 32);
+    xil_printf("\n\rexpect = ");
+    customprint(expected, 32);
     xil_printf("Cycles: %d\r\n\r\n", stop_time - start_time);
     
-    xil_printf("\n\n\rTests:\n\r");
-    xil_printf("multiply_and_sum:\n\r");
-    uint32_t a = 0xab6784ff;
-    uint32_t b = 0xfba819de;
-    uint32_t sum = (uint64_t) a * (uint64_t) * b;
-    uint32_t expS = (uint32_t) sum;
-    uint32_t expC = (uint32_t) (sum >> 32);
-    uint32_t resS = multiply_and_sum(a, b, 0, 0);
-    uint32_t resC = get_carry();
-
-    xil_printf("Expected S: %08x, actual S: %08x\n\r", expS, resS);
-    xil_printf("Expected C: %08x, actual C: %08x\n\r", expC, resC);
+//    xil_printf("\n\n\rTests:\n\r");
+//    xil_printf("multiply_and_sum:\n\r");
+//    uint32_t testA = 0xab6784ff;
+//    uint32_t testB = 0xfba819de;
+//    uint32_t testD1 = 0xff27ffee;
+//    uint32_t testD2 = 0xffffe321;
+//    uint64_t sum = (uint64_t) testA * (uint64_t) testB + (uint64_t) testD1 + (uint64_t) testD2;
+//    uint32_t expS = (uint32_t) sum;
+//    uint32_t expC = (uint32_t) (sum >> 32);
+//    uint32_t resS = multiply_and_sum(testA, testB, testD1, testD2);
+//    uint32_t resC = get_carry();
+//    xil_printf("Expected S: %08x, actual S: %08x\n\r", expS, resS);
+//    xil_printf("Expected C: %08x, actual C: %08x\n\r", expC, resC);
     
     cleanup_platform();
     return 0;

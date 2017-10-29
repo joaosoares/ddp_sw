@@ -4,8 +4,8 @@
  */
 #include <stdint.h>
 
-#ifndef ADD_CARRY_H_
-#define ADD_CARRY_H_
+#ifndef UTIL_H_
+#define UTIL_H_
 
 //void add_carry(uint32_t *t, uint32_t i, uint32_t c);
 
@@ -21,11 +21,13 @@
 uint32_t multiply_and_sum(uint32_t A, uint32_t B, uint32_t D1, uint32_t D2);
 
 /* Returns the MSBs of the multiplication. Must be called
- * imediately after multiply_and_sum.
+ * immediately after multiply_and_sum.
  * Inputs: none
  * Returns:
  * C => 32-bit integer
  */
 uint32_t get_carry();
+
+void add_carry(uint32_t *t, uint32_t i, uint32_t c);
 
 #endif /* UTIL_H_ */

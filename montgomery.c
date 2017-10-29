@@ -5,10 +5,10 @@
 
 #include "montgomery.h"
 #include "util.h"
+#include "xil_printf.h"
 #include <stdint.h>
 #include <stdio.h>
 
-void add_carry(uint32_t *t, uint32_t i, uint32_t c);
 void sub_cond(uint32_t *u, uint32_t *n, uint32_t size);
 
 void mont(uint32_t *a, uint32_t *b, uint32_t *n, uint32_t *n0, uint32_t *res,
@@ -26,7 +26,7 @@ void mont(uint32_t *a, uint32_t *b, uint32_t *n, uint32_t *n0, uint32_t *res,
     S = multiply_and_sum(a[0], b[i], t[0], 0);
     C = get_carry();
     add_carry(t, 1, C);
-    uint32_t m = multiply_and_sum(S, n0, 0, 0);
+    uint32_t m = multiply_and_sum(S, n0[0], 0, 0);
     S = multiply_and_sum(m, n[0], S, 0);
     C = get_carry();
     int j;
@@ -35,6 +35,7 @@ void mont(uint32_t *a, uint32_t *b, uint32_t *n, uint32_t *n0, uint32_t *res,
       C = get_carry();
       add_carry(t, j + 1, C);
       S = multiply_and_sum(m, n[j], S, 0);
+      C = get_carry();
       t[j - 1] = S;
     }
     sum = t[size] + C;
@@ -52,7 +53,6 @@ void mont(uint32_t *a, uint32_t *b, uint32_t *n, uint32_t *n0, uint32_t *res,
 
 /* Carry addition algorithm
  *
- */
 void add_carry(uint32_t *t, uint32_t i, uint32_t c) {
   while (c != 0) {
     uint64_t sum = (uint64_t) t[i] + (uint64_t) c;
@@ -62,6 +62,7 @@ void add_carry(uint32_t *t, uint32_t i, uint32_t c) {
     i++;
   }
 }
+*/
 
 /* Conditional subtraction algorithm
  */
