@@ -7,7 +7,7 @@
 #ifndef ADD_CARRY_H_
 #define ADD_CARRY_H_
 
-void add_carry(uint32_t *t, uint32_t i, uint32_t c);
+//void add_carry(uint32_t *t, uint32_t i, uint32_t c);
 
 /* Performs the operation
  * (C, S) = A * B + D

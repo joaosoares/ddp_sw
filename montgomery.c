@@ -4,7 +4,7 @@
  */
 
 #include "montgomery.h"
-#include "add_carry.h"
+#include "util.h"
 #include <stdint.h>
 #include <stdio.h>
 
@@ -50,15 +50,15 @@ void mont(uint32_t *a, uint32_t *b, uint32_t *n, uint32_t *n0, uint32_t *res,
 /* Carry addition algorithm
  *
  */
-//void add_carry(uint32_t *t, uint32_t i, uint32_t c) {
-//  while (c != 0) {
-//    uint64_t sum = (uint64_t) t[i] + (uint64_t) c;
-//    uint32_t S = (uint32_t)sum;
-//    c = (uint32_t)(sum >> 32);
-//    t[i] = S;
-//    i++;
-//  }
-//}
+void add_carry(uint32_t *t, uint32_t i, uint32_t c) {
+  while (c != 0) {
+    uint64_t sum = (uint64_t) t[i] + (uint64_t) c;
+    uint32_t S = (uint32_t)sum;
+    c = (uint32_t)(sum >> 32);
+    t[i] = S;
+    i++;
+  }
+}
 
 /* Conditional subtraction algorithm
  */

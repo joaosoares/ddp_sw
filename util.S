@@ -1,31 +1,3 @@
-
-.text
-
-.global add_carry
-.func add_carry, add_carry
-.type add_carry, %function
-
-add_carry:
-
-
-	mov r6,#4	// store 4 for later use
-	mul r1, r1, r6	//i*4
-	add r0,r0,r1 //move the address of t until get the position
-	mov r6,#0	// store 0 for later use
-
-	add_loop_mont:
-		cmp r2, #0 //while(c!=0)
-		beq end_loop_mont
-		ldr r5, [r0]	//load t[i] to r5
-		adds r4,r5,r2 //sum =t[i] + c; Lower 32 bits
-		adc  r2,r6,r6 // write higher 32 bits to c using the carry from adds
-		str r4, [r0],#4
-		b  add_loop_mont
-	end_loop_mont:
-
-.endfunc
-
-
 .text
 
 .global multiply_and_sum
@@ -42,6 +14,8 @@ multiply_and_sum:
 	adc r1, r1, #0
 	@ Save C to passed pointer
 	str r1, [r3]
+	@ Branch back
+	bx lr
 .endfunc
 
 
