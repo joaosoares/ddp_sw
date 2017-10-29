@@ -51,6 +51,7 @@
 #include <stdint.h>
 #include <inttypes.h>
 #include "montgomery.h"
+#include "util.h"
 #include "asm_func.h"
 #include "mp_arith.h"
 #include "performance_counters.h"
@@ -77,13 +78,26 @@ int main()
     init_performance_counters(1);
     uint32_t start_time = get_cycle_counter();
     // Montgomery
-	mont(a, b, N, n_prime, res, 32);
+	  mont(a, b, N, n_prime, res, 32);
     uint32_t stop_time = get_cycle_counter();
 
     xil_printf("result = ");
     customprint(res, 32);
+    xil_printf("Cycles: %d\r\n\r\n", stop_time - start_time);
     
-    xil_printf("Bananas: %d\r\n\r\n", stop_time - start_time);
+    xil_printf("\n\n\rTests:\n\r");
+    xil_printf("multiply_and_sum:\n\r");
+    uint32_t a = 0xab6784ff;
+    uint32_t b = 0xfba819de;
+    uint32_t sum = (uint64_t) a * (uint64_t) * b;
+    uint32_t expS = (uint32_t) sum;
+    uint32_t expC = (uint32_t) (sum >> 32);
+    uint32_t resS = multiply_and_sum(a, b, 0, 0);
+    uint32_t resC = get_carry();
+
+    xil_printf("Expected S: %08x, actual S: %08x\n\r", expS, resS);
+    xil_printf("Expected C: %08x, actual C: %08x\n\r", expC, resC);
+    
     cleanup_platform();
     return 0;
 }
