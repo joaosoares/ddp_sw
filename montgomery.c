@@ -11,6 +11,7 @@
 
 void sub_cond(uint32_t *u, uint32_t *n, uint32_t size);
 
+
 void mont(uint32_t *a, uint32_t *b, uint32_t *n, uint32_t *n0, uint32_t *res,
           uint32_t size) {
   uint32_t t[size + 2];
@@ -31,12 +32,14 @@ void mont(uint32_t *a, uint32_t *b, uint32_t *n, uint32_t *n0, uint32_t *res,
     C = get_carry();
     int j;
     for (j = 1; j < size; j++) {
+
       S = multiply_and_sum(a[j], b[i], t[j], C);
       C = get_carry();
       add_carry(t, j + 1, C);
       S = multiply_and_sum(m, n[j], S, 0);
       C = get_carry();
       t[j - 1] = S;
+
     }
     sum = t[size] + C;
     S = (uint32_t)sum;
@@ -46,23 +49,9 @@ void mont(uint32_t *a, uint32_t *b, uint32_t *n, uint32_t *n0, uint32_t *res,
     t[size + 1] = 0;
   }
   sub_cond(t, n, size);
-  for (i = 0; i < size; i++) {
-    res[i] = t[i];
-  }
+  res = t;
 }
 
-/* Carry addition algorithm
- *
-void add_carry(uint32_t *t, uint32_t i, uint32_t c) {
-  while (c != 0) {
-    uint64_t sum = (uint64_t) t[i] + (uint64_t) c;
-    uint32_t S = (uint32_t)sum;
-    c = (uint32_t)(sum >> 32);
-    t[i] = S;
-    i++;
-  }
-}
-*/
 
 /* Conditional subtraction algorithm
  */
