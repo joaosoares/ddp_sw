@@ -6,23 +6,16 @@
 
 multiply_and_sum:
 	@ Input arguments: r0 -> A, r1 -> B, r2 -> D1, r3 -> D2
-	@ Push registers to stack
-	push {r4-r9}
 	@ Multiply, save S in r4 and C in r5 
-	umull r4, r5, r0, r1
+	umull r0, r1, r0, r1
 	@ D1+D2
-	adds r6, r2, r3
+	adds r2, r2, r3
 	@ Add possible carry to C
-	adc r5, r5, #0
+	adc r1, r1, #0
 	@ Add D1+D2 to S
-	adds r4, r4, r6
+	adds r0, r0, r2
 	@ Add possible carry to C
-	adc r5, r5, #0
-	@ Define return value
-	mov r0, r4
-	mov r1, r5
-	@ Restore registers and branch back
-	pop {r4-r9}
+	adc r1, r1, #0
 	bx lr
 .endfunc
 
@@ -50,9 +43,7 @@ get_carry:
 @ c  -> r2
 
 add_carry:
-	push {r4}
-	mov r4, #4
-	mul r1, r1, r4
+	mov r1, r1, lsl #2
 	add r0, r0, r1
 	cmp r2, #0
 	beq add_carry_end
@@ -66,7 +57,6 @@ add_carry_loop:
 	cmp r2, #0
 	bne add_carry_loop
 add_carry_end:
-	pop {r4}
 	bx lr
 
 .endfunc
